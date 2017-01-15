@@ -1,0 +1,11 @@
+#!/bin/bash
+
+prog="$HOME/.local/bin/fetch"
+
+cnt=$($prog knight42)
+
+[[ -z $cnt ]] && exit 0
+
+export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$UID/bus"
+
+echo "update_github($cnt)" | awesome-client
