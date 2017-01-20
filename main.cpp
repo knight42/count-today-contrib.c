@@ -66,9 +66,15 @@ int main(int argc, char *argv[]) {
     strftime(date, 16, "%F", tm);
 
     Downloader d;
-    std::istringstream iss(d.download(url));
+    string data(d.download(url));
+    if (data.empty()) {
+        return -1;
+    }
+
+    std::istringstream iss(data);
 
     const char *pat = "data-count=";
+    const char *cnt = "0";
     for (string line; std::getline(iss, line); ) {
         if (line.find(date) == string::npos) {
             continue;
@@ -83,8 +89,9 @@ int main(int argc, char *argv[]) {
                  c = line.at(++pos));
 
             string num = line.substr(begin, pos - begin);
-            cout << num << endl;
+            cnt = num.c_str();
         }
     }
+    cout << cnt << endl;
     return 0;
 }
