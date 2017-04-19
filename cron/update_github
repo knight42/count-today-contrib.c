@@ -6,6 +6,8 @@ cnt=$($prog knight42)
 
 [[ -z $cnt ]] && exit 0
 
-export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$UID/bus"
+bus="unix:path=/run/user/$UID/bus"
+[[ -e $bus ]] || exit 0
 
+export DBUS_SESSION_BUS_ADDRESS="$bus"
 echo "update_github($cnt)" | awesome-client
